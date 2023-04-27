@@ -11,9 +11,12 @@ namespace Case.BLL.Services
     {
         IEnumerable<Field> GetAllForm();
 
+        IEnumerable<Field> GetAllFields(int formID);
         void CreateField(Field field);
         void RemoveField(Field field);
         void UpdateField(Field field);
         Field FieldGetById(int id);
+
+        void InsertFields(List<Field> fields);
     }
 }

@@ -26,9 +26,19 @@ namespace Case.BLL.Services
             return fieldRepository.GetById(id);
         }
 
+        public IEnumerable<Field> GetAllFields(int formID)
+        {
+            return fieldRepository.GetAll(formID).Where(s => s.FormID == formID);
+        }
+
         public IEnumerable<Field> GetAllForm()
         {
             return fieldRepository.GetAll().ToList();
+        }
+
+        public void InsertFields(List<Field> fields)
+        {
+            fieldRepository.InsertAll(fields);
         }
 
         public void RemoveField(Field field)

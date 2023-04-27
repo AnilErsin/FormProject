@@ -1,0 +1,35 @@
+﻿@using Case.Entities.Entity
+@model IEnumerable<Field>
+
+@{
+    ViewData["Title"] = "Forms";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<h5>Form Name : @ViewBag.formName</h5>
+<h5>Form Description : @ViewBag.formDescription</h5>
+
+
+
+@using (Html.BeginForm())
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                @foreach (var field in Model)
+                {
+                    <div class="form-group">
+                        <label for="@field.Name">
+                            @field.Name @if (field.Required)
+                        {<span class="text-danger">*</span>}
+                        </label>
+                        <input type="@field.dataType" class="form-control" id="@field.Name" name="@field.Name" @if (field.Required) { <text> required</text> } />
+                    </div>
+                }
+
+
+                <a href="/Home/Index" class="btn btn-primary">Submit</a>
+            </div>
+        </div>
+    </div>
+}

@@ -24,6 +24,11 @@ namespace Case.BLL.Repository
             return _entites.AsEnumerable();
         }
 
+        public IEnumerable<T> GetAll(int formID)
+        {
+            return _entites.ToList();
+        }
+
         public T GetById(int id)
         {
             return _entites.Find(id);
@@ -37,6 +42,12 @@ namespace Case.BLL.Repository
                 SaveChanges();
 
             }
+        }
+
+        public void InsertAll(List<T> entities)
+        {
+            _entites.AddRange(entities);
+            SaveChanges();
         }
 
         public void Remove(T entity)

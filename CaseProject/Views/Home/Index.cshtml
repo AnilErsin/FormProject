@@ -68,15 +68,16 @@
     </tr>
     @foreach (var x in Model)
     {
-        <tr>
-            <td>@x.ID</td>
-            <td>@x.Name</td>
-            <td>@x.Description</td>
-            <td>@x.CreatedAt</td>
-            <td>@x.CreatedBy</td>
-            <td><a href="#" class="btn btn-warning">Formu Doldur</a></td>
+<tr>
+    <td>@x.ID</td>
+    <td>@x.Name</td>
+    <td>@x.Description</td>
+    <td>@x.CreatedAt</td>
+    <td>@x.CreatedBy</td>
+    <td><a href="/Forms/@x.ID" class="btn btn-warning">Formu Doldur</a></td>
+    <td><a href="@Url.Action("AddFields", "Home", new { id = x.ID })" class="btn btn-success">Add Fields</a></td>
 
-        </tr>
+</tr>
     }
 </table>
 

@@ -1,0 +1,112 @@
+﻿@using Case.Entities.Entity
+@model int
+
+@{
+    ViewData["Title"] = "AddFields";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>İlgili Form için Field Ekleme</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+</head>
+
+<body>
+    <h2>Add Fields to @ViewBag.Name</h2>
+    <form id="add-fields-form">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 mx-auto">
+                    <div id="fields-container">
+                        <div class="form-group field-row">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="checkbox-input" required />
+                                <label class="form-check-label" for="checkbox-input">Required <span class="text-danger">*</span></label>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <input type="text" class="form-control field-name" placeholder="Field Name" />
+                            </div>
+                            <div class="form-group col-md-4">
+                                <select class="form-control field-data-type">
+                                    <option value="text">text</option>
+                                    <option value="number">number</option>
+                                    <option value="date">date</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <p id="selected-data-type"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-secondary mr-2" id="add-field">Add Field</button>
+                    <button type="submit" class="btn btn-primary">Submit Form</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+
+    <script>
+    (function ($) {
+        function addFieldRow() {
+            const fieldRow = $('<div class="field-row"></div>');
+            fieldRow.append('<input type="checkbox" class="required" />');
+            fieldRow.append('<input type="text" class="field-name" placeholder="Field Name" />');
+                const selectBox = $('<select class="field-data-type"><option value="">--Select a data type--</option><option value="date">date</option><option value="number">number</option><option value="text">text</option></select>');
+                fieldRow.append(selectBox);
+                fieldRow.append('<p id="selected-data-type"></p>');
+
+
+            fieldRow.append('<button type="button" class="remove-field">Remove</button>');
+            fieldRow.find('.remove-field').on('click', function () {
+                fieldRow.remove();
+            });
+
+            $('#fields-container').append(fieldRow);
+        }
+
+
+        $('#add-field').on('click', function () {
+            addFieldRow();
+        });
+
+        $('#add-fields-form').on('submit', function (event) {
+            event.preventDefault();
+            const formID = @Model;
+            const fields = [];
+            $('.field-row').each(function () {
+                const required = $(this).find('.required').prop('checked');
+                const name = $(this).find('.field-name').val();
+                const dataType = $(this).find('.field-data-type').val();
+                fields.push({ Required: required, Name: name, dataType: dataType, FormID: formID });
+            });
+
+            $.ajax({
+                type: 'POST',
+                    url: '/Home/AddFields',
+                data: JSON.stringify(fields),
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                success: function () {
+                    alert('Fields have been added successfully.');
+                    window.location.href = '/Home/Index';
+                },
+                error: function (xhr, status, error) {
+                    alert('An error occurred while adding fields: ' + xhr.responseText);
+                }
+            });
+        });
+    })(jQuery);
+
+    </script>
+
+
+</body>
+</html>
+
+
