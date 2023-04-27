@@ -1,0 +1,143 @@
+﻿@using Case.Entities.Entity
+@model IEnumerable<Form>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Popup Örneği</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        #popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        #popup-content {
+            background-color: white;
+            width: 400px;
+            height: 400px;
+            margin: 100px auto;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+            #popup-content input {
+                display: block;
+                margin-bottom: 10px;
+                padding: 5px;
+                width: 100%;
+                border: none;
+                border-radius: 5px;
+                box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            }
+
+            #popup-content button {
+                display: block;
+                margin-top: 10px;
+                padding: 5px;
+                width: 100%;
+                border: none;
+                border-radius: 5px;
+                box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            }
+    </style>
+</head>
+<body>
+
+  <h2>Form Listesi</h2>
+
+  <br />
+
+<table class="table table-bordered">
+
+    <tr>
+        <th>ID</th>
+        <th>NAME</th>
+        <th>DESCRİPTİON</th>
+        <th>CreatedAt</th>
+        <th>CreatedBy</th>
+    </tr>
+    @foreach (var x in Model)
+    {
+        <tr>
+            <td>@x.ID</td>
+            <td>@x.Name</td>
+            <td>@x.Description</td>
+            <td>@x.CreatedAt</td>
+            <td>@x.CreatedBy</td>
+            <td><a href="#" class="btn btn-warning">Formu Doldur</a></td>
+
+        </tr>
+    }
+</table>
+
+
+    <button class="btn btn-primary" id="popup-button">Form Ekle</button>
+    <div id="popup">
+        <div id="popup-content">
+            <h2>Yeni Form Ekle</h2>
+            <input type="text" id="name" placeholder="Name">
+            <input type="text" id="description" placeholder="Description">
+            <input type="date" id="created-at" placeholder="Created At">
+            <input type="text" id="created-by" placeholder="Created By">
+            <button id="submitForm">Kaydet</button>
+            <button id="cancel-button">İptal</button>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $("#popup-button").click(function () {
+                $("#popup").fadeIn();
+            });
+            $("#cancel-button").click(function () {
+                $("#popup").fadeOut();
+            });
+        });
+
+        $(document).on("click", "#submitForm", function () {
+            var name = $("#name").val();
+            var description = $("#description").val();
+            var createdAt = $("#created-at").val();
+            var createdBy = $("#created-by").val();
+
+            var formData = {
+                Name: name,
+                Description: description,
+                CreatedAt: createdAt,
+                CreatedBy: createdBy
+            };
+
+            if (!name || !description || !createdAt || !createdBy) {
+                alert("Lütfen tüm alanları doldurun.");
+                return;
+            }
+            $.ajax({
+                type: "POST",
+                url: "/Home/CreateFrom",
+                data: JSON.stringify(formData),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function () {
+                   
+                    location.reload();
+                    $("#popup").modal("hide");
+                    
+                   
+                },
+                error: function (xhr, status, error) {
+                    alert("Kaydetme işlemi sırasında bir hata oluştu: " + xhr.responseText);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
