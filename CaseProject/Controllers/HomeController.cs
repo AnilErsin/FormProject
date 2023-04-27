@@ -11,6 +11,7 @@ using Web.Models.ViewModels;
 
 namespace Web.Controllers
 {
+    
     public class HomeController : Controller
     {       
         private readonly IFormService formService;
@@ -52,6 +53,7 @@ namespace Web.Controllers
             return View("Index", result);
         }
 
+        [Authorize(Policy = "RequireLoggedIn")]
         [HttpGet("/forms/{formId}")]
         public IActionResult Forms(int formId)
         {
@@ -75,6 +77,7 @@ namespace Web.Controllers
             return Json(new { success = true, message = "Form başarıyla kaydedildi.", redirectTo = Url.Action("Index", "Home") });
         }
 
+        [Authorize(Policy = "RequireLoggedIn")]
         [HttpGet]
         public IActionResult AddFields(int id)
         {
