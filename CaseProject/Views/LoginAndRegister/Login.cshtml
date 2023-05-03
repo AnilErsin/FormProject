@@ -1,5 +1,4 @@
 ﻿@model LoginVm
-
 <!--
 Author: W3layouts
 Author URL: http://w3layouts.com
@@ -37,13 +36,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         <input type="text" class="form-control" placeholder="Kullanıcı Adı Girin" asp-for="Username" />
                     </div>
                     <div class="mt-2">
-                        
+
                         <span asp-validation-for="Password" class="text-danger"></span>
                         <input type="password" class="form-control" placeholder="Şifre Girin" asp-for="Password" />
                     </div>
                     <button type="submit" class="btn btn-primary">Giriş Yap</button>
 
-                    <a href="/Home/Register" class="btn btn-primary">Üye Ol</a>
+                    <a href="/LoginAndRegister/Register" class="btn btn-primary">Üye Ol</a>
                 </form>
             </div>
             <div class="clear"> </div>
@@ -55,4 +54,5 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     </div>
 </body>
 </html>
+
 

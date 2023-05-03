@@ -97,7 +97,7 @@ namespace CaseProject
             {
                 endpoints.MapControllerRoute(
                        name: "default",
-                       pattern: "{controller=Home}/{action=Login}/{id?}");
+                       pattern: "{controller=LoginAndRegister}/{action=Login}/{id?}");
                 endpoints.MapRazorPages();
             });
         }
