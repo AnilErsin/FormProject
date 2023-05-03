@@ -49,7 +49,7 @@ namespace CaseProject
                 options.Password.RequireNonAlphanumeric = false;
             });
 
-            
+
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("RequireLoggedIn", policy =>
@@ -59,7 +59,7 @@ namespace CaseProject
             });
 
 
-            
+
             services.AddRazorPages();
 
             services.AddTransient(typeof(IRepository<>), typeof(BaseRepository<>));
@@ -84,6 +84,9 @@ namespace CaseProject
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+          
+
 
             app.UseRouting();
 
